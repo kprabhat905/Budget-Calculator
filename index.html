@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="./css/style.css" />
+    
+    <title>Budget Calculator</title>
+    
+  </head>
+
+  <body onload="addExpenseDataToTable(addedExpenseDetails.slice(0,count));">
+    <script src="./js/landingInputForm.js"></script>
+
+    <div class="header">
+      <div class="header-content">
+        <div class="logo">
+          <img src="./images/page-logo.jpg" alt="Girl with a jacket" />
+        </div>
+        <br>
+        <!-- <div class="logo-slogan">Budget Calculator.</div> -->
+
+        <div class="nav-container">
+        
+          <button class="button btn-blue">Home</button>
+        </div>
+      </div>
+    </div>
+    <div class="page-container">
+      <div class="banner-container">
+        <img src="./images/bannerImage.PNG" alt="Girl with a jacket" class="border1" />
+      </div>
+      <div class="page-body-container">
+        <div class="budget-submit-container">
+          <div class="main-container">
+            <div class="form-row">
+              <label for="name"><b>Monthly Income (Rs.)</b></label>
+              <input
+                type="text"
+                id="monthlyIncome"
+                name="monthlyIncome"
+                min="1"
+                value="0"
+                onclick="clearTextMonthlyIncome()"
+                onkeypress="return onlyNumberKey(event)"
+              />
+            </div>
+
+            <div class="form-row">
+              <label><b>Budget Ending Date</b></label>
+              <input
+                type="date"
+                id="budgetEndingDate"
+                name="budgetEndingDate"
+                onchange="checkBudgetEndingDate()"
+              />
+            </div>
+          </div>
+          <div class="form-btn-container">
+            <button
+              class="button submit-btn btn-blue"
+              onclick="getDataMonthlyIncomeBudgetEndingDate()"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+        <div class="submit-result-container">
+          <h1>Countdown Clock</h1>
+          <div id="clockdiv">
+            <div>
+              <span class="days" id="day"></span>
+              <div class="smalltext">Days</div>
+            </div>
+            <div>
+              <span class="hours" id="hour"></span>
+              <div class="smalltext">Hours</div>
+            </div>
+            <div>
+              <span class="minutes" id="minute"></span>
+              <div class="smalltext">Minutes</div>
+            </div>
+            <div>
+              <span class="seconds" id="second"></span>
+              <div class="smalltext">Seconds</div>
+            </div>
+          </div>
+
+          <div class="budget-result-container">
+            <div class="left-box-container budget-content">
+              <form>
+                <div class="form-row">
+                  <label><b>Budget (Rs.)</b></label>
+                  <p id="budget">0</p>
+                </div>
+
+                <div class="form-row">
+                  <label><b>Expenses (Rs.)</b></label>
+                  <p id="expenses">0</p>
+                </div>
+
+                <div class="form-row">
+                  <label><b>Balance (Rs.)</b></label>
+                  <p id="balance">0</p>
+                </div>
+
+                <div class="form-row">
+                  <label><b>Savings (Rs.)</b></label>
+                  <p id="savings">0</p>
+                </div>
+              </form>
+            </div>
+
+            <div class="left-box-container budget-update">
+              <div class="form-row">
+                <label for="name"><b>Updated Budget (Rs.)</b></label>
+                <input
+                  type="text"
+                  id="updatedBudget"
+                  name="updatedBudget"
+                  min="1"
+                  value="0"
+                  onclick="clearTextUpdatedBudget()"
+                  onkeypress="return onlyNumberKey(event)"
+                />
+              </div>
+
+              <div class="form-row text-right form-btn-container">
+                <button onclick="updateNewBudget()" class="button btn-blue">
+                  Update Budget
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <p id="demo"></p>
+
+          <div class="left-box-container">
+            <h2><b>Add Expense</b></h2>
+            <br />
+            <div class="form-row">
+              <label><b>Budget Description</b></label>
+              <input
+                type="text"
+                id="budgetDescription"
+                name="budgetDescription"
+              />
+            </div>
+
+            <div class="form-row">
+              <label><b>Category</b></label>
+              <div class="category-container">
+                <select id="addedExpense" class="addedExpense">
+                  <option value="Rent" selected>Rent (Rs.)</option>
+                  <option value="EMI">EMI (Rs.)</option>
+                  <option value="Grocery">Grocery (Rs.)</option>
+                  <option value="Bills">Bills (Rs.)</option>
+                  <option value="Other Expenses">Other Expenses (Rs.)</option>
+                </select>
+                <input
+                  type="number"
+                  id="addedExpenseAmount"
+                  name="addedExpenseAmount"
+                  onkeypress="return onlyNumberKey(event)"
+                  onclick="clearTextAddedExpenseAmount()"
+                  min="1"
+                  value="0"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label><b>Date of Expense</b></label>
+              <input
+                type="date"
+                id="addedExpenseDate"
+                name="addedExpenseDate"
+                onchange="compareDateOfExpenseDate()"
+              />
+            </div>
+
+            <div class="form-btn-container">
+              <button class="button btn-blue" onclick="getAddedExpenseData()">
+                Submit Expense
+              </button>
+            </div>
+          </div>
+
+          <p><b>Note:</b> Only Other Expenses can be edited. Also, to edit Other Expenses please update the details in Add Expenses section and submit again.</p>
+          <br>
+          <h2><b>My Expenses</b></h2>
+          
+          <table id="myTable" class="myTable">
+            <tr class="header">
+              <th style="width: 20%;">Budget Description</th>
+              <th style="width: 20%;">Category</th>
+              <th style="width: 20%;">Amount (Rs.)</th>
+              <th style="width: 20%;">Date</th>
+              <th style="width: 20%;">Edit/Delete</th>
+            </tr>
+          </table>
+          <br />
+          <!-- Trigger/Open The Modal -->
+          <button id="myBtn" class="button btn-blue">
+            View All
+          </button>
+        </div>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+          <!-- Modal content -->
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>My Expenses</h2>
+
+            <input
+              type="text"
+              id="myInput1"
+              onkeyup="filterExpenseData()"
+              placeholder="Search for Category.."
+              title="Type in a name"
+            />
+            <table id="myModalTable" class="myModalTable">
+              <tr class="header">
+              <th style="width: 20%;">Budget Description</th>
+              <th style="width: 20%;">Category</th>
+              <th style="width: 20%;">Amount (Rs.)</th>
+              <th style="width: 20%;">Date</th>
+              <th style="width: 20%;">Edit/Delete</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <div class="footer">
+        <br>
+        <p><b>Copyright &copy; Nagarro | NAGP | Javascript | Budget Calculator</b></p>
+        <br>
+      </div>
+    </div>
+    </div>
+    <script>
+      // Get the modal
+      var modal = document.getElementById('myModal');
+
+      // Get the button that opens the modal
+      var btn = document.getElementById('myBtn');
+
+      // Get the <span> element that closes the modal
+      var span = document.getElementsByClassName('close')[0];
+
+      // When the user clicks the button, open the modal
+      btn.onclick = function () {
+        modal.style.display = 'block';
+        updateTableToModal();
+      };
+
+      // When the user clicks on <span> (x), close the modal
+      span.onclick = function () {
+        modal.style.display = 'none';
+      };
+
+      // When the user clicks anywhere outside of the modal, close it
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+        }
+      };
+    </script>
+  </body>
+</html>
